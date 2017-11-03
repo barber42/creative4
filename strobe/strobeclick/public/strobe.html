@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Strobeclick</title>
+
+<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+
+<script src="javascripts/strobe.js"></script>
+
+</head>
+<body>
+
+<div id='app' ng-app='app' ng-controller='mainCtrl'>
+
+<h1>Strobeclick!</h1>
+
+<form id='newScore' ng-submit='addScore()'>
+Name: <input type="text" name="userName" value:"Enter here...">
+SCORE: <input type="text" name="Score" value:"Enter here...">
+<input type="submit" value="Start" id="nameButt">
+</form>
+
+<div id="target"></div>
+
+<p> Click the target as many times as you can within the time limit.
+High scores posted below</p>
+
+<ol ng-if='scores.length' class='list center stretch'>
+	<li ng-repeat='s in scores' class='scores'>
+	<h2>{{s.name}}: {{s.score}}</h2>
+	 </li>
+</ol>
+
+
+</div>
+
+</body>
+</html>
+
