@@ -5,30 +5,58 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"	></script>
 
 <script src="javascripts/strobe.js"></script>
+<meta charset="utf-8">
+
 
 </head>
 <body>
 
+<script>
+var count = 1;
+var time = 5000;
+
+$(document).ready(function(){
+  
+
+  $('#target').click(function(){
+    $('body').toggleClass('targetHit');
+  });
+ 
+});
+
+function timerStart() {
+	myVar = setTimeout(function(){
+		$('#subScore').css("display",'block');$('#target').css('display','none');	}, time);
+		
+}
+
+</script>
+
 <div id='app' ng-app='app' ng-controller='mainCtrl'>
 
 <h1>Strobeclick!</h1>
+<p> You have a 5 second time limit to click the target as many times as you can.<br>
+High scores will be posted below. To try again, refresh the page.</p>
 
-<form id='newScore' ng-submit='addScore()'>
-Name: <input type="text" name="userName" value:"Enter here...">
-SCORE: <input type="text" name="Score" value:"Enter here...">
-<input type="submit" value="Start" id="nameButt">
+
+<img src="images/target.png" id="target" onclick = "timerStart()" ng-click='incCount()' >
+<form id="subScore" ng-submit="addScore()" style="display:none;">
+	<input type="text" ng-model="Name" id="nameSlot" value="" placeholder="Name... ">
+	<input type="submit" value="Submit" id="nameButt">
 </form>
 
-<div id="target"></div>
+<!-- <div ng-if='!scores.length' class='no-scores center stretch'>
+      <h1 class='h1'>
+	        Set up your endpoint at `/scores` to get this view working
+      </h1>
+</div> -->
 
-<p> Click the target as many times as you can within the time limit.
-High scores posted below</p>
-
-<ol ng-if='scores.length' class='list center stretch'>
-	<li ng-repeat='s in scores' class='scores'>
-	<h2>{{s.name}}: {{s.score}}</h2>
+<ol class='list center stretch'>
+	<li ng-repeat="s in scores | orderBy:'-scr'">
+	<h2>{{s.userName}}: {{s.scr}}</h2>
 	 </li>
 </ol>
 

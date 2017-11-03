@@ -1,47 +1,43 @@
 //strobe Game Script
 var app = window.angular.module('app',[])
 
-app.factory('scoreFetcher', scoreFetcher)
 app.controller('mainCtrl', mainCtrl)
 
-function scoreFetcher ($http) {
-	var API_ROOT = 'scores'
-	return{
-		get: function () {
-			return $http
-			.get(API_ROOT)
-			.then(function (resp) {
-				return resp.data
-			});
-		}
-	}
-}
-
-function mainCtrl($scope, scoreFetcher, $http) {
+function mainCtrl($scope, $http) {
 	
-	$scope.score = []	
+	var count = 0;
 
-	scoreFetcher.get()
-		.then(function (data) {
-			$scope.score = data
-		});
-	
+	$scope.scores = []
 
 	$scope.addScore = function() {
-		var formData = {name:$scope.Name,score:$scope.Score};
+		var formData = {userName:$scope.Name,scr:count};
+		count = 0;
 		console.log(formData);
 	
-		var scoreURL = 'scores';
+		var scoreURL = '/scores';
 		$http({
 			url: scoreURL,
 			method: "POST",
 			data: formData
 		}).success(function(data, status, headers, config) {
-			console.log('Post Worked');
+			console.log('Post Worked');$scope.getscores();
 		}).error(function(data, status, headers, config) {
 			console.log('Post Failed');
 		});
 
 	}
 
+	$scope.getscores = function(){
+		$http
+       		.get('/scores')
+        	.then(function (resp) {
+         	$scope.scores = resp.data;
+        });
+	}
+
+	$scope.getscores();	
+
+	$scope.incCount = function(){
+		count++;
+	}	
 }
